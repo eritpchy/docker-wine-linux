@@ -1,0 +1,9 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Terminal=false
+Type=Application
+Name=微信
+Exec=bash '$PWD/start.sh' WeChat
+Icon=$PWD/icon/WeChat.png
+StartupWMClass=WeChat
