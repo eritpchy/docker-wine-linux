@@ -26,7 +26,7 @@ RUN cd /root \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get update \
     && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get install wget git locales ttf-wqy-zenhei sudo tzdata xdotool socat -y \
+    && apt-get install wget git locales ttf-wqy-zenhei sudo tzdata xdotool socat libx11-dev build-essential psmisc -y \
     && ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && dpkg-reconfigure --frontend noninteractive tzdata \
     && locale-gen en_US.UTF-8 zh_CN.UTF-8 zh_CN.GBK \
@@ -40,6 +40,22 @@ RUN cd /root \
     && rm -rf /root/deepin-wine-ubuntu \
     && apt-get clean \
     && apt-get autoclean
+
+
+COPY fcitxwindowmove.sh /usr/bin/
+COPY caretpos.sh /usr/bin/
+COPY caretpos.exe /usr/bin/
+
+RUN chmod +x /usr/bin/fcitxwindowmove.sh
+RUN chmod +x /usr/bin/caretpos.sh
+
+RUN cd /tmp \
+    && git clone --depth 1 https://github.com/eritpchy/X11WindowMove.git \
+    && cd X11WindowMove \
+    && bash ./make.sh \
+    && mv -f ./x11windowmove /usr/bin/ \
+    && chmod +x /usr/bin/x11windowmove \
+    && rm -rf /tmp/X11WindowMove
 
 ENV LC_CTYPE=zh_CN.UTF-8 \
     XIM=$IM \
